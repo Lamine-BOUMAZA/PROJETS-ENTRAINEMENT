@@ -1,81 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>JS Drum Kit</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="https://fav.farm/🔥" />
-</head>
-<body>
-  <div class="keys">
-    <div data-key="65" class="key">
-      <kbd>A</kbd>
-      <span class="sound">clap</span>
+  <head>
+    <meta charset="UTF-8" />
+    <title>JS Drum Kit</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <div class="keys">
+      <div data-key="65" class="key">
+        <kbd>A</kbd>
+        <span class="sound">clap</span>
+      </div>
+      <div data-key="83" class="key">
+        <kbd>S</kbd>
+        <span class="sound">hihat</span>
+      </div>
+      <div data-key="68" class="key">
+        <kbd>D</kbd>
+        <span class="sound">kick</span>
+      </div>
+      <div data-key="70" class="key">
+        <kbd>F</kbd>
+        <span class="sound">openhat</span>
+      </div>
+      <div data-key="71" class="key">
+        <kbd>G</kbd>
+        <span class="sound">boom</span>
+      </div>
+      <div data-key="72" class="key">
+        <kbd>H</kbd>
+        <span class="sound">ride</span>
+      </div>
+      <div data-key="74" class="key">
+        <kbd>J</kbd>
+        <span class="sound">snare</span>
+      </div>
+      <div data-key="75" class="key">
+        <kbd>K</kbd>
+        <span class="sound">tom</span>
+      </div>
+      <div data-key="76" class="key">
+        <kbd>L</kbd>
+        <span class="sound">tink</span>
+      </div>
     </div>
-    <div data-key="83" class="key">
-      <kbd>S</kbd>
-      <span class="sound">hihat</span>
-    </div>
-    <div data-key="68" class="key">
-      <kbd>D</kbd>
-      <span class="sound">kick</span>
-    </div>
-    <div data-key="70" class="key">
-      <kbd>F</kbd>
-      <span class="sound">openhat</span>
-    </div>
-    <div data-key="71" class="key">
-      <kbd>G</kbd>
-      <span class="sound">boom</span>
-    </div>
-    <div data-key="72" class="key">
-      <kbd>H</kbd>
-      <span class="sound">ride</span>
-    </div>
-    <div data-key="74" class="key">
-      <kbd>J</kbd>
-      <span class="sound">snare</span>
-    </div>
-    <div data-key="75" class="key">
-      <kbd>K</kbd>
-      <span class="sound">tom</span>
-    </div>
-    <div data-key="76" class="key">
-      <kbd>L</kbd>
-      <span class="sound">tink</span>
-    </div>
-  </div>
 
-  <audio data-key="65" src="sounds/clap.wav"></audio>
-  <audio data-key="83" src="sounds/hihat.wav"></audio>
-  <audio data-key="68" src="sounds/kick.wav"></audio>
-  <audio data-key="70" src="sounds/openhat.wav"></audio>
-  <audio data-key="71" src="sounds/boom.wav"></audio>
-  <audio data-key="72" src="sounds/ride.wav"></audio>
-  <audio data-key="74" src="sounds/snare.wav"></audio>
-  <audio data-key="75" src="sounds/tom.wav"></audio>
-  <audio data-key="76" src="sounds/tink.wav"></audio>
+    <audio data-key="65" src="sounds/clap.wav"></audio>
+    <audio data-key="83" src="sounds/hihat.wav"></audio>
+    <audio data-key="68" src="sounds/kick.wav"></audio>
+    <audio data-key="70" src="sounds/openhat.wav"></audio>
+    <audio data-key="71" src="sounds/boom.wav"></audio>
+    <audio data-key="72" src="sounds/ride.wav"></audio>
+    <audio data-key="74" src="sounds/snare.wav"></audio>
+    <audio data-key="75" src="sounds/tom.wav"></audio>
+    <audio data-key="76" src="sounds/tink.wav"></audio>
 
-<script>
-function listen(event) { // Fonction qui écoute les événements du clavier
-  const touch = document.querySelector(`[data-key="${event.keyCode}"]`); // Trouve l'élément HTML avec le data-key correspondant à la touche pressée
-  const sound = document.querySelector(`audio[data-key="${event.keyCode}"]`); // Trouve l'élément audio avec le même data-key
-  sound.play() // Joue le fichier audio correspondant
-  touch.classList.add("playing") // Ajoute la classe CSS "playing" pour l'effet visuel
-  console.log(event.keyCode, touch, sound); // Affiche dans la console pour le débogage
-  setTimeout(()=> {
-    touch.classList.remove("playing")
-  }, 100);
-}
+    <script>
+      function listen(event) {
+        // Recherche l'élément DOM correspondant à la touche pressée grâce à son data-key
+        const touch = document.querySelector(`[data-key="${event.keyCode}"]`);
+        // Trouve le fichier audio associé à cette même touche
+        const sound = document.querySelector(
+          `audio[data-key="${event.keyCode}"]`
+        );
+        // Lance la lecture du son
+        sound.play();
+        // Ajoute une classe CSS pour créer l'animation visuelle
+        touch.classList.add("playing");
+        // Affichage de débogage pour vérifier les valeurs
+        console.log(event.keyCode, touch, sound);
+        // Retire l'effet visuel après 100ms pour permettre de rejouer l'animation
+        setTimeout(() => {
+          touch.classList.remove("playing");
+        }, 100);
+      }
 
-
-window.addEventListener( // Attache un écouteur d'événements à la fenêtre
-  "keydown", // Écoute l'événement "touche pressée"
-  listen, // Appelle la fonction listen quand une touche est pressée
-);
-
-</script>
-
-
-</body>
+      // Écoute tous les événements de pression de touches sur la page entière
+      window.addEventListener(
+        "keydown", // Type d'événement : touche enfoncée
+        listen // Fonction à exécuter lors de l'événement
+      );
+    </script>
+  </body>
 </html>

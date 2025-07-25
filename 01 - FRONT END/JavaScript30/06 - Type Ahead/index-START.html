@@ -1,65 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Type Ahead 👀</title>
-  <link rel="stylesheet" href="style.css">
-  <link rel="icon" href="https://fav.farm/🔥" />
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Type Ahead 👀</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <form class="search-form">
+      <input
+        type="text"
+        class="search"
+        name="search"
+        placeholder="City or State"
+      />
+      <ul class="suggestions">
+        <li>Filter for a city</li>
+        <li>or a state</li>
+      </ul>
+    </form>
+    <script>
+      // URL de l'API contenant les données des villes américaines
+      const endpoint =
+        "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
 
-  <form class="search-form">
-    <input type="text" class="search" name="search" placeholder="City or State">
-    <ul class="suggestions">
-      <li>Filter for a city</li>
-      <li>or a state</li>
-    </ul>
-  </form>
-<script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+      // Variable globale pour stocker les données récupérées
+      let cities = [];
 
-let cities = []
-// 1. Récupération des données
-// - Récupérer les données depuis l'API fournie
-// - Stocker ces données dans une structure appropriée pour les manipuler
-async function getDataApi() {
-  const storeDataApi = await fetch(endpoint);
-  const responseDataApi = await storeDataApi.json();
-  cities = responseDataApi;
-  console.log(cities);
-}
-getDataApi()
+      // === RÉCUPÉRATION DES DONNÉES ===
+      // Fonction asynchrone pour charger les données depuis l'API
+      async function getDataApi() {
+        // Requête HTTP vers l'endpoint
+        const storeDataApi = await fetch(endpoint);
+        // Conversion de la réponse en format JSON
+        const responseDataApi = await storeDataApi.json();
+        // Stockage global pour utilisation dans d'autres fonctions
+        cities = responseDataApi;
+        console.log(cities);
+      }
+      // Lancement immédiat du chargement des données
+      getDataApi();
 
-// 2. Création de la fonction de recherche
-// - Implémenter une fonction qui filtre les données selon le terme recherché
-// - La recherche doit fonctionner à la fois sur les noms de villes et les états
-// - Utiliser des expressions régulières pour une recherche insensible à la casse
-function searchValue(event) {
-  const data = cities.filter((usa) => usa.city.includes(event.target.value) || usa.state.includes(event.target.value));
-  // - Convertir le tableau d'objet en tableau li.
-  // - Afficher (Ajouter) dans l'élément parent "ul".
-  // const citiesLi = data.map((city) => `${city.city}`);
-  const elementParent = document.querySelector('.suggestions')
-  elementParent.innerHTML = "";
-  for (const city of data) {
-    const li = document.createElement('li')
+      // === FONCTION DE RECHERCHE ET AFFICHAGE ===
+      // Filtre et affiche les résultats en fonction de la saisie utilisateur
+      function searchValue(event) {
+        // Filtrage : recherche dans les noms de villes ET d'états
+        const data = cities.filter(
+          (usa) =>
+            usa.city.includes(event.target.value) ||
+            usa.state.includes(event.target.value)
+        );
 
-    const spanCity = document.createElement('span')
-    spanCity.textContent = `${city.city}, ${city.state}`;
+        // Récupération du conteneur pour afficher les résultats
+        const elementParent = document.querySelector(".suggestions");
+        // Nettoyage des résultats précédents
+        elementParent.innerHTML = "";
 
-    const spanPopulation = document.createElement('span')
-    spanPopulation.textContent = city.population
+        // Création dynamique des éléments HTML pour chaque résultat
+        for (const city of data) {
+          // Création de l'élément de liste
+          const li = document.createElement("li");
 
-    li.appendChild(spanCity)
-    li.appendChild(spanPopulation)
+          // Span pour afficher ville et état
+          const spanCity = document.createElement("span");
+          spanCity.textContent = `${city.city}, ${city.state}`;
 
-    elementParent.appendChild(li)
-  }
-}
+          // Span pour afficher la population
+          const spanPopulation = document.createElement("span");
+          spanPopulation.textContent = city.population;
 
-const input = document.querySelector('.search')
-input.addEventListener('input', searchValue);
+          // Assemblage des éléments
+          li.appendChild(spanCity);
+          li.appendChild(spanPopulation);
 
-</script>
-</body>
+          // Ajout à la liste des suggestions
+          elementParent.appendChild(li);
+        }
+      }
+
+      // === LIAISON ÉVÉNEMENT ===
+      // Attachement de l'écouteur d'événement sur le champ de recherche
+      const input = document.querySelector(".search");
+      input.addEventListener("input", searchValue); // Déclenchement à chaque caractère tapé
+    </script>
+  </body>
 </html>

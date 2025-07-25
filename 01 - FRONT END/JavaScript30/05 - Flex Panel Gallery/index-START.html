@@ -141,11 +141,16 @@
     </div>
 
     <script>
+      // Récupération de tous les panneaux de la galerie
       const panels = document.querySelectorAll(".panel");
+
+      // Ajout d'un gestionnaire de clic sur chaque panneau
       for (const panel of panels) {
         panel.addEventListener("click", () => {
-          panel.classList.toggle('open');
-          panel.classList.toggle('open-active');
+          // Bascule entre l'état ouvert/fermé du panneau
+          panel.classList.toggle("open"); // Agrandit le panneau
+          panel.classList.toggle("open-active"); // Anime l'apparition du texte
+          // Log pour suivre l'état des classes CSS
           console.log(panel.classList);
         });
       }
