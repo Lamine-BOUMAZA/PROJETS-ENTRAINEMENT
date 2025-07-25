@@ -7,8 +7,6 @@
   <link rel="icon" href="https://fav.farm/🔥" />
 </head>
 <body>
-
-
   <div class="keys">
     <div data-key="65" class="key">
       <kbd>A</kbd>
@@ -59,9 +57,22 @@
   <audio data-key="76" src="sounds/tink.wav"></audio>
 
 <script>
+function listen(event) { // Fonction qui écoute les événements du clavier
+  const touch = document.querySelector(`[data-key="${event.keyCode}"]`); // Trouve l'élément HTML avec le data-key correspondant à la touche pressée
+  const sound = document.querySelector(`audio[data-key="${event.keyCode}"]`); // Trouve l'élément audio avec le même data-key
+  sound.play() // Joue le fichier audio correspondant
+  touch.classList.add("playing") // Ajoute la classe CSS "playing" pour l'effet visuel
+  console.log(event.keyCode, touch, sound); // Affiche dans la console pour le débogage
+  setTimeout(()=> {
+    touch.classList.remove("playing")
+  }, 100);
+}
 
+window.addEventListener( // Attache un écouteur d'événements à la fenêtre
+  "keydown", // Écoute l'événement "touche pressée"
+  listen, // Appelle la fonction listen quand une touche est pressée
+);
 </script>
-
 
 </body>
 </html>

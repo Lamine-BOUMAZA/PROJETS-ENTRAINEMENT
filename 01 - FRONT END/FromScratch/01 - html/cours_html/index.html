@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Crée un commentaire Cmd + Shift + / -->
+    <!-- Ci-dessous : Le nom de l'onglet du navigateur -->
+    <title>Cours HTML</title>
+    <!-- Ci-dessous : Icone de l'onglet -->
+    <link rel="shortcut icon" href="./images/HTML5_logo_and_wordmark.svg.png" />
+  </head>
+  <body>
+    <nav>
+      <!-- UL = Unordered List -->
+      <ul>
+        <li>Accueil</li>
+        <li>Boutique</li>
+        <li><a href="#form">Formulaire</a></li>
+      </ul>
+    </nav>
+    <header>
+      <!-- La bonne pratique est qu'on doit mettre un seul h1 par page ! -->
+      <h1>Ceci est le titre prinicapl</h1>
+      <p>
+        Ceci est un paragraphe
+        <em>Texte en italique : balise -> em</em>
+        <strong>Texte en gras : balise -> strong</strong> Besoin d'un texte afin de placé plutard du contenu (lorem50 donc 50 mots) Lorem ipsum dolor sit amet consectetur adipisicing elit Eveniet,nobis consectetur. Dolorum molestiae quidem cum autem, repudiandae commodi laborum sit reprehenderit itaque labore fuga voluptatibus magni quod nulla eum quasi amet maiores illum reiciendis consequuntur repellendus atque enim id suscipit. Nostrum, deleniti! Ut ex recusandae in magni adipisci sed vitae?
+      </p>
+    </header>
+    <main>
+			<section>
+				<!-- OL = Ordered List -->
+				<h2>Ordered List</h2>
+				<ol>
+					<li>Ceci est une</li>
+					<li>liste dans</li>
+					<li>l'ordre</li>
+				</ol>
+			</section>
+			<section>
+				<h3>Image en HTML</h3>
+				<img src="./ressources/images/HTML5_logo_and_wordmark.svg.png" height="150" width="150" alt="image_section_3">
+				<div>
+					<h4>Tableaux</h4>
+					<!-- Pour faire un tableau en HTML : balise table -->
+					<table border="5" cellpadding="10" cellspacing="5" style="text-align: center;" >
+						<!-- L'en-tête du tableau : balise thead -->
+						<thead>
+							<!-- Pour avoir des lignes dans le tableau : balise tr  -->
+							<tr>
+								<!-- Pour avoir des colonnes dans l'en-tête du tableau tableau : balise th  -->
+								<th>Col 1</th>
+								<th>Col 2</th>
+								<th>Col 3</th>
+							</tr>
+						</thead>
+						<!-- Pour avoir un contenu dans le tableau : balise tbody  -->
+						<tbody>
+							<!-- Pour avoir des lignes dans le tableau : balise tr  -->
+								<tr>
+								<!-- Pour avoir des colonnes dans l'en-tête du tableau tableau : balise td  -->
+									<td rowspan="2">Cell 1</td>
+									<td>Cell 2</td>
+									<td>Cell 3</td>
+								<tr>
+								<!-- Pour avoir des colonnes dans l'en-tête du tableau tableau : balise td  -->
+									<td colspan="2">Cell 4</td>
+								</tr>
+								</tr>
+						</tbody>
+					</table>
+				</div>
+				<div>
+					<h5><i>&#10148;</i> Les liens</h5>
+					<a href="https://htmlcheatsheet.com" target="_blank">HTML Cheat Sheet</a>
+					<!-- _blank permet d'ouvrir le lien dans un autre onglet -->
+				</div>
+				<div>
+					<h6> <span>&#128249;</span> Les vidéos</h6>
+					<video src="./ressources/videos/istockphoto-545625782-640_adpp_is.mp4" height="200" autoplay muted loop></video>
+				</div>
+			</section>
+			<section id="form">
+				<h2>Les Formulaires</h2>
+				<form action="">
+					<!-- for et id permettent de lié le label à l'input -->
+					<label for="name">Nom</label>
+					<input id="name" type="text" placeholder="Entrez votre nom" />
+
+					<br/>
+
+					<label for="age">Âge</label>
+					<input id="age" type="number" placeholder="Entrez votre âge" />
+
+					<br />
+
+					<!-- input de type select  -->
+					<label for="gender">Genre</label>
+					<select name="" id="gender">
+						<option value="Homme">Homme</option>
+						<option selected="selected" value="Femme">Femme</option>
+					</select>
+
+					<div>
+						<input type="radio" name="type" id="human" checked>
+						<label for="human">Humain</label>
+
+						<input type="radio" name="type" id="dog">
+						<label for="dog">Chien</label>
+
+						<input type="radio" name="type" id="cat">
+						<label for="cat">Chat</label>
+					</div>
+					<textarea placeholder="Votre message..."></textarea>
+
+					<br>
+
+					<!-- input de type checkbox -->
+					<input type="checkbox" name="" id="cgv">
+					<label for="cgv">Accepter les CGV</label>
+
+					<br>
+
+					<input type="submit" value="Ceci est le bouton pour valider le form">
+				</form>
+				<button>Ceci est le bouton pour valider le form</button>
+			</section>
+		</main>
+    <footer>
+			<a href="mailto:azerty@gmail.com">Contactez-moi</a>
+			<a href="./notice.txt" download="notice">À télécharger</a>
+		</footer>
+  </body>
+</html>
