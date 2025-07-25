@@ -23,9 +23,21 @@
 
   <style>
 
-    /*
-      misc styles, nothing to do with CSS variables
-    */
+    .hl {
+      color: var(--base);
+    }
+
+    :root {
+      --spacing: 10px;
+      --blur: 10px;
+      --base: #ffc600;
+    }
+
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
 
     body {
       text-align: center;
@@ -46,6 +58,16 @@
   </style>
 
   <script>
+    const inputs = document.querySelectorAll("input") // Sélectionne tous les éléments input de la page
+    const root = document.querySelector(":root") // Sélectionne l'élément racine du document
+    for (input of inputs) { // Parcourt chaque input trouvé
+      input.addEventListener("mousemove", (event) => { // Écoute l'événement mousemove sur l'input        
+        document.documentElement.style.setProperty(`--${event.target.name}`, `${event.target.value}${event.target.dataset.sizing || ''}`) // Met à jour la variable CSS avec la valeur de l'input
+    });
+    input.addEventListener("change", (event) => { // Écoute l'événement change sur l'input        
+        document.documentElement.style.setProperty(`--${event.target.name}`, `${event.target.value}${event.target.dataset.sizing || ''}`) // Met à jour la variable CSS avec la valeur de l'input
+    });
+    }
   </script>
 
 </body>

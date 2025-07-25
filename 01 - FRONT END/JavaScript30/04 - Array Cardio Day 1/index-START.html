@@ -38,29 +38,70 @@
     
     // Array.prototype.filter()
     // 1. Filter the list of inventors for those who were born in the 1500's
+    const inventorYear = inventors.filter((inventor) => inventor.year >= 1500 && inventor.year < 1599); // Filtre les inventeurs nés entre 1500 et 1599
+    console.table(inventorYear); // Affiche le résultat sous forme de tableau dans la console
 
     // Array.prototype.map()
     // 2. Give us an array of the inventors first and last names
+    const inventorName = inventors.map((inventor) => (`${inventor.first} ${inventor.last}`)); // Transforme chaque inventeur en une chaîne "Prénom Nom"
+    console.table(inventorName); // Affiche le tableau des noms complets dans la console
 
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
+    const inventorSortBirthdate = inventors.sort((a, b) => b.year - a.year); // Trie par année de naissance décroissante (plus vieux en premier)
+    console.table(inventorSortBirthdate); // Affiche le tableau trié dans la console
 
     // Array.prototype.reduce()
     // 4. How many years did all the inventors live all together?
+    const inventorCumulAge = inventors.reduce((acc, value) => { // Démarre avec un accumulateur à 0
+      const inventorAge = acc + (value.passed - value.year); // Calcule l'âge de l'inventeur actuel et l'ajoute à l'accumulateur
+      return inventorAge; // Retourne la nouvelle valeur de l'accumulateur
+    }, 0); // Valeur initiale de l'accumulateur = 0
+    console.table(inventorCumulAge); // Affiche le total des années vécues
 
     // 5. Sort the inventors by years lived
+    const inventorSortYear = inventors.sort((a, b) => ((a.passed - a.year) - (b.passed - b.year))) // Trie par nombre d'années vécues (ordre croissant)
+      .map((inventor) => { // Transforme chaque inventeur pour ajouter la propriété âge
+        // Étape de la destructuration si tableau [...tableau ou objet, insérer la nouvelle propriété : faire ce je veux]
+        return {...inventor, age: inventor.passed - inventor.year}; // Crée un nouvel objet avec toutes les propriétés de l'inventeur + l'âge calculé
+      });
+    console.table(inventorSortYear); // Affiche le tableau trié avec les âges
+
 
     // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
     // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
-
+    // const boulevard = document.getElementsByClassName("mw-content-ltr") // Sélectionne les éléments avec la classe CSS "mw-content-ltr"
+    // const toto = document.querySelector(".mw-category") // Sélectionne le premier élément avec la classe CSS "mw-category"
+    // const toto2 = toto.getElementsByTagName("a") // Récupère tous les liens <a> dans l'élément sélectionné
+    // const toto3 = Array.from(toto2).map((a) => a.textContent) // Convertit la HTMLCollection en Array et extrait le texte de chaque lien
+    // const toto4 = toto3.filter((toto) => toto.includes(' de ')) // Filtre les noms qui contiennent ' de ' (avec espaces)
 
     // 7. sort Exercise
     // Sort the people alphabetically by last name
+    const peopleSortByLastName = people.sort((personA, personB) => { // Fonction de tri qui compare deux personnes
+      const [aLast, aFirst] = personA.split(', '); // Destructure la chaîne "Nom, Prénom" pour la première personne
+      const [bLast, bFirst] = personB.split(', '); // Destructure la chaîne "Nom, Prénom" pour la deuxième personne
+      // return aLast > bLast ? 1 : -1; // Version ternaire commentée
+      if (aLast < bLast) { // Si le nom de A vient avant celui de B alphabétiquement
+        return -1; // A doit être placé avant B
+      } else if (aLast > bLast) { // Si le nom de A vient après celui de B alphabétiquement
+        return 1; // A doit être placé après B
+      }
+      // Note: manque le cas d'égalité (return 0)
+    });
+    console.table(peopleSortByLastName); // Affiche le tableau trié par nom de famille
 
     // 8. Reduce Exercise
     // Sum up the instances of each of these
-    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck' ];
-
+    const data = ['car', 'car', 'truck', 'truck', 'bike', 'walk', 'car', 'van', 'bike', 'walk', 'car', 'van', 'car', 'truck']; // Tableau des moyens de transport
+    const transports = data.reduce((acc, value) => { // Fonction reduce pour compter les occurrences
+      acc[value] = (acc[value] || 0) + 1; // Si la propriété existe, l'incrémente de 1, sinon l'initialise à 1
+      return acc; // Retourne l'objet accumulateur modifié
+    }, {}); // Démarre avec un objet vide comme accumulateur
+    console.table(transports); // Affiche le comptage des moyens de transport
+    
   </script>
 </body>
 </html>
+
+

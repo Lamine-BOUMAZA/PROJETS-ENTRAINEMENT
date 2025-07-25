@@ -9,7 +9,7 @@
 <body>
 
   <form class="search-form">
-    <input type="text" class="search" placeholder="City or State">
+    <input type="text" class="search" name="search" placeholder="City or State">
     <ul class="suggestions">
       <li>Filter for a city</li>
       <li>or a state</li>
@@ -17,6 +17,48 @@
   </form>
 <script>
 const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+let cities = []
+// 1. Récupération des données
+// - Récupérer les données depuis l'API fournie
+// - Stocker ces données dans une structure appropriée pour les manipuler
+async function getDataApi() {
+  const storeDataApi = await fetch(endpoint);
+  const responseDataApi = await storeDataApi.json();
+  cities = responseDataApi;
+  console.log(cities);
+}
+getDataApi()
+
+// 2. Création de la fonction de recherche
+// - Implémenter une fonction qui filtre les données selon le terme recherché
+// - La recherche doit fonctionner à la fois sur les noms de villes et les états
+// - Utiliser des expressions régulières pour une recherche insensible à la casse
+function searchValue(event) {
+  const data = cities.filter((usa) => usa.city.includes(event.target.value) || usa.state.includes(event.target.value));
+  // - Convertir le tableau d'objet en tableau li.
+  // - Afficher (Ajouter) dans l'élément parent "ul".
+  // const citiesLi = data.map((city) => `${city.city}`);
+  const elementParent = document.querySelector('.suggestions')
+  elementParent.innerHTML = "";
+  for (const city of data) {
+    const li = document.createElement('li')
+
+    const spanCity = document.createElement('span')
+    spanCity.textContent = `${city.city}, ${city.state}`;
+
+    const spanPopulation = document.createElement('span')
+    spanPopulation.textContent = city.population
+
+    li.appendChild(spanCity)
+    li.appendChild(spanPopulation)
+
+    elementParent.appendChild(li)
+  }
+}
+
+const input = document.querySelector('.search')
+input.addEventListener('input', searchValue);
 
 </script>
 </body>
