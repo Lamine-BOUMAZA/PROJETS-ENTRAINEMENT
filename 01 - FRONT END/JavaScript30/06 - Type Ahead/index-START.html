@@ -20,68 +20,149 @@
       </ul>
     </form>
     <script>
-      // URL de l'API contenant les données des villes américaines
-      const endpoint =
-        "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+      /* ========================================================================
+          CONFIGURATION ET VARIABLES GLOBALES
+         ======================================================================== */
 
-      // Variable globale pour stocker les données récupérées
+      // URL de l'API GitHub contenant un fichier JSON avec toutes les villes américaines
+      // Cette API retourne un tableau d'objets avec les propriétés : city, state, population
+      const endpoint =
+        'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+      // Variable globale pour stocker toutes les données des villes une fois récupérées
+      // Initialisée comme tableau vide, elle sera remplie par la fonction getDataApi()
       let cities = [];
 
-      // === RÉCUPÉRATION DES DONNÉES ===
-      // Fonction asynchrone pour charger les données depuis l'API
+      /* ========================================================================
+          RÉCUPÉRATION DES DONNÉES DEPUIS L'API
+         ======================================================================== */
+
+      /**
+       * Fonction asynchrone qui récupère les données des villes depuis l'API externe
+       * Utilise async/await pour gérer les opérations asynchrones de manière propre
+       * @returns {Promise<void>} - Ne retourne rien mais peuple la variable globale cities
+       */
       async function getDataApi() {
-        // Requête HTTP vers l'endpoint
-        const storeDataApi = await fetch(endpoint);
-        // Conversion de la réponse en format JSON
-        const responseDataApi = await storeDataApi.json();
-        // Stockage global pour utilisation dans d'autres fonctions
-        cities = responseDataApi;
-        console.log(cities);
+        try {
+          // ÉTAPE 1: Effectue une requête HTTP GET vers l'endpoint
+          // fetch() retourne une Promise qui se résout avec un objet Response
+          const storeDataApi = await fetch(endpoint);
+
+          // ÉTAPE 2: Convertit la réponse HTTP en format JSON
+          // .json() est une méthode asynchrone qui parse le body de la réponse
+          const responseDataApi = await storeDataApi.json();
+
+          // ÉTAPE 3: Stockage des données dans la variable globale
+          // Permet à toutes les autres fonctions d'accéder aux données
+          cities = responseDataApi;
+
+          // ÉTAPE 4: Affichage dans la console pour débuggage
+          // Permet de vérifier que les données ont été correctement chargées
+          console.log(cities);
+        } catch (error) {
+          // Gestion d'erreur en cas de problème avec l'API
+          console.error('Erreur lors du chargement des données:', error);
+        }
       }
-      // Lancement immédiat du chargement des données
+
+      // Lancement immédiat du chargement des données au chargement de la page
+      // Cette fonction s'exécute dès que le script est lu par le navigateur
       getDataApi();
 
-      // === FONCTION DE RECHERCHE ET AFFICHAGE ===
-      // Filtre et affiche les résultats en fonction de la saisie utilisateur
+      /* ========================================================================
+          FONCTION DE RECHERCHE ET AFFICHAGE DES RÉSULTATS
+         ======================================================================== */
+
+      /**
+       * Fonction principale qui filtre les données et affiche les résultats
+       * Déclenchée à chaque caractère tapé dans le champ de recherche
+       * @param {Event} event - L'événement 'input' du champ de recherche
+       */
       function searchValue(event) {
-        // Filtrage : recherche dans les noms de villes ET d'états
+        // ÉTAPE 1: FILTRAGE DES DONNÉES
+        // Utilise la méthode filter() pour créer un nouveau tableau avec seulement les villes correspondantes
         const data = cities.filter(
           (usa) =>
-            usa.city.includes(event.target.value) ||
-            usa.state.includes(event.target.value)
+            // Recherche dans le nom de la ville (insensible à la casse via toLowerCase)
+            usa.city.toLowerCase().includes(event.target.value.toLowerCase()) ||
+            // OU recherche dans le nom de l'état (insensible à la casse)
+            usa.state.toLowerCase().includes(event.target.value.toLowerCase())
         );
 
-        // Récupération du conteneur pour afficher les résultats
-        const elementParent = document.querySelector(".suggestions");
-        // Nettoyage des résultats précédents
-        elementParent.innerHTML = "";
+        // ÉTAPE 2: PRÉPARATION DU CONTENEUR D'AFFICHAGE
+        // Sélection de l'élément HTML qui contiendra les résultats
+        const elementParent = document.querySelector('.suggestions');
 
-        // Création dynamique des éléments HTML pour chaque résultat
+        // Nettoyage complet du contenu précédent pour éviter l'accumulation
+        // innerHTML = "" supprime tous les éléments enfants
+        elementParent.innerHTML = '';
+
+        // ÉTAPE 3: CRÉATION DYNAMIQUE DES ÉLÉMENTS HTML
+        // Boucle à travers chaque ville filtrée pour créer son élément d'affichage
         for (const city of data) {
-          // Création de l'élément de liste
-          const li = document.createElement("li");
+          // CRÉATION DE L'ÉLÉMENT PRINCIPAL (LI)
+          // Chaque résultat sera dans un élément <li> de la liste
+          const li = document.createElement('li');
 
-          // Span pour afficher ville et état
-          const spanCity = document.createElement("span");
-          spanCity.textContent = `${city.city}, ${city.state}`;
+          // CRÉATION DU SPAN POUR VILLE ET ÉTAT
+          // Contiendra le nom de la ville et de l'état avec mise en surbrillance
+          const spanCity = document.createElement('span');
 
-          // Span pour afficher la population
-          const spanPopulation = document.createElement("span");
-          spanPopulation.textContent = city.population;
+          // MISE EN SURBRILLANCE DU TEXTE RECHERCHÉ
+          // Création d'une expression régulière pour trouver le texte saisi
+          // "gi" = global (toutes les occurrences) et insensible à la casse
+          const regex = new RegExp(event.target.value, 'gi');
 
-          // Assemblage des éléments
+          // Remplacement du texte correspondant par une version encadrée de <span class="hl">
+          // Cela permettra de mettre en surbrillance les parties correspondantes
+          const cityName = city.city.replace(
+            regex,
+            `<span class="hl">${event.target.value}</span>`
+          );
+          const stateName = city.state.replace(
+            regex,
+            `<span class="hl">${event.target.value}</span>`
+          );
+
+          // Assemblage du texte final : "Ville, État"
+          spanCity.innerHTML = `${cityName}, ${stateName}`;
+
+          // CRÉATION DU SPAN POUR LA POPULATION
+          // Contiendra le nombre d'habitants formaté
+          const spanPopulation = document.createElement('span');
+
+          // Formatage du nombre de population avec séparateurs de milliers
+          // Number() convertit la chaîne en nombre, toLocaleString() formate avec des virgules
+          spanPopulation.textContent = Number(city.population).toLocaleString(
+            'fr-FR'
+          );
+
+          // ASSEMBLAGE DES ÉLÉMENTS
+          // Ajout des deux spans (ville/état et population) dans l'élément li
           li.appendChild(spanCity);
           li.appendChild(spanPopulation);
 
-          // Ajout à la liste des suggestions
+          // AJOUT À LA LISTE DES SUGGESTIONS
+          // Insertion de l'élément li complet dans le conteneur ul.suggestions
           elementParent.appendChild(li);
         }
       }
 
-      // === LIAISON ÉVÉNEMENT ===
+      /* ========================================================================
+          LIAISON DES ÉVÉNEMENTS
+         ======================================================================== */
+
+      // Sélection du champ de recherche dans le DOM
+      // Utilise la classe CSS "search" pour identifier l'input
+      const input = document.querySelector('.search');
+
       // Attachement de l'écouteur d'événement sur le champ de recherche
-      const input = document.querySelector(".search");
-      input.addEventListener("input", searchValue); // Déclenchement à chaque caractère tapé
+      // "input" : se déclenche à chaque modification du contenu (chaque caractère tapé/supprimé)
+      // searchValue : fonction callback qui sera exécutée à chaque déclenchement
+      input.addEventListener('input', searchValue);
+
+      // Note: L'événement "input" est préférable à "keyup" car il capture aussi
+      // les modifications par copier/coller, glisser/déposer, etc.
     </script>
   </body>
 </html>
