@@ -40,7 +40,6 @@
       /**
        * Fonction asynchrone qui récupère les données des villes depuis l'API externe
        * Utilise async/await pour gérer les opérations asynchrones de manière propre
-       * @returns {Promise<void>} - Ne retourne rien mais peuple la variable globale cities
        */
       async function getDataApi() {
         try {
@@ -134,7 +133,7 @@
           // Formatage du nombre de population avec séparateurs de milliers
           // Number() convertit la chaîne en nombre, toLocaleString() formate avec des virgules
           spanPopulation.textContent = Number(city.population).toLocaleString(
-            'fr-FR'
+            'en-US'
           );
 
           // ASSEMBLAGE DES ÉLÉMENTS
