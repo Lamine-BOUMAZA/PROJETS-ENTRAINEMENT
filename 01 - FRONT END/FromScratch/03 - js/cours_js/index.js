@@ -5,15 +5,15 @@ plusieurs
 lignes */
 
 // Kamel Case
-let maSuperVariable = "Hello";
+let maSuperVariable = 'Hello';
 
 // ** Les variables **
 
 // var = vieux JS
-var unTexte = "voici un texte";
+var unTexte = 'voici un texte';
 
 // const = constante
-const prenom = "justine";
+const prenom = 'justine';
 
 // Let = la variable peut évoluer
 let unChiffre = 24;
@@ -22,24 +22,24 @@ unChiffre = 22;
 let chaine = "Je suis l'une des chaines de caractères";
 
 let nouvelleChaine =
-  "Chaine précédente : " + chaine + ". Voila c'était le contenu";
+  'Chaine précédente : ' + chaine + ". Voila c'était le contenu";
 
 // Concaténation avec guillements altgr+7
 let autreConcatenation = `Chaine précédente : ${chaine}. Voila c'était le contenu`;
 
 // ** Types de données **
-let string = "Je suis une chaine de caractère";
+let string = 'Je suis une chaine de caractère';
 let number = 24;
 let boolean = false;
 
 // Tableau : il y a des crochets []
-let array = ["je", "suis", 47, true];
+let array = ['je', 'suis', 47, true];
 
 // Objet : accolades {}
 let object = {
-  prenom: "audrey",
+  prenom: 'audrey',
   age: 33,
-  ville: "bordeaux",
+  ville: 'bordeaux',
 };
 
 let arbre;
@@ -89,12 +89,12 @@ if (x === y) {
 }
 
 let a = 2;
-let b = "2";
+let b = '2';
 // == teste l'égalité de valeur sans prendre en compte le type
 if (a == b) {
   // console.log("ils sont égaux");
 } else {
-  console.log("pas égaux !");
+  console.log('pas égaux !');
 }
 
 // || ou
@@ -107,16 +107,16 @@ if (x < y || x > 1) {
 
 // && il faut que toutes les conditions soit réunies
 if (x < y && x > 1) {
-  console.log("UI");
+  console.log('UI');
 }
 
 // ** Les fonctions **
 
 // fonction classique (à l'ancienne)
 function faireQuelqueChose() {
-  console.log("je fais un truc");
+  console.log('je fais un truc');
   console.log(5 + 6);
-  alert("Calcule terminé !");
+  alert('Calcule terminé !');
 }
 
 // Il faut impérativement appeler la fonction pour qu'elle se joue
